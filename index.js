@@ -1,12 +1,16 @@
 // import TelegramBot from "node-telegram-bot-api";
 const TelegramBot = require("node-telegram-bot-api");
+const { config } = require("dotenv");
+config();
 
-const TOKEN = "8415282558:AAFhRN-qCJ7Bz3enueyC3S2LNpOGKAnQM-M";
+const TOKEN = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
+let usersData = [];
+
 bot.on("message", (msg) => {
-  console.log(msg);
+  // console.log(msg);
   const chatId = msg.chat.id;
   const text = msg.text;
   const firstName = msg.chat.first_name;
@@ -66,6 +70,26 @@ Quyidagi menyudan kerakli bo‘limni tanlang 👇
   } else if (text == "ℹ️ Markaz haqida") {
     bot.sendMessage(chatId, "📍 Bizning o‘quv markaz joylashuvi:");
     bot.sendLocation(chatId, 41.3781989, 60.3694056);
+  } else if (text == "✍️ Ro‘yxatdan o‘tish") {
+    const userExists = usersData.some((user) => user.chatId === chatId);
+
+    console.log("bormi: ", userExists);
+
+    if (!userExists) {
+      usersData = [
+        ...usersData,
+        {
+          chatId: chatId,
+          firstName: firstName,
+          admin: false,
+        },
+      ];
+      bot.sendMessage(chatId, `Tabriklaymiz, siz ro'yhatdan o'tdingiz! ✅`);
+    } else {
+      bot.sendMessage(chatId, `Siz allaqachon ro'yhatdan o'tdingiz ❗️`);
+    }
+
+    console.log(usersData);
   } else {
     bot.sendMessage(
       chatId,

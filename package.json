@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/cbuabbosbek/semifinal-project-101#readme",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "node-telegram-bot-api": "^0.66.0"
   },
   "devDependencies": {
