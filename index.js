@@ -1,6 +1,10 @@
 // import TelegramBot from "node-telegram-bot-api";
-const TelegramBot = require("node-telegram-bot-api");
-const { config } = require("dotenv");
+import TelegramBot from "node-telegram-bot-api";
+import { config } from "dotenv";
+import { onStart } from "./src/onStart.js";
+import { onCourses } from "./src/onCourses.js";
+import { onRegister } from "./src/onRegister.js";
+
 config();
 
 const TOKEN = process.env.BOT_TOKEN;
@@ -28,86 +32,14 @@ bot.on("message", (msg) => {
   //   bot.sendMessage(chatId, text);
 
   if (text == "/start" || text == "Asosiy menyuga qaytish") {
-    bot.sendMessage(
-      chatId,
-      `
-    👋 Assalomu alaykum, ${firstName}!
-
-📚 100x o‘quv markazining rasmiy botiga xush kelibsiz!
-
-Bu bot orqali siz:
-• Kurslarimiz haqida batafsil ma’lumot olasiz  
-• Kurslarga onlayn ro‘yxatdan o‘tishingiz mumkin  
-• Jadval va to‘lovlar haqida ma’lumot olasiz  
-
-Quyidagi menyudan kerakli bo‘limni tanlang 👇
-
-    `,
-      {
-        reply_markup: {
-          keyboard: [
-            [{ text: "📚 Kurslar" }, { text: "✍️ Ro‘yxatdan o‘tish" }],
-            [{ text: "ℹ️ Markaz haqida" }, { text: "💬 Fikr bildirish" }],
-            [{ text: "❓ Yordam" }],
-          ],
-          resize_keyboard: true,
-        },
-      }
-    );
+    onStart(chatId, firstName);
   } else if (text == "📚 Kurslar") {
-    bot.sendMessage(
-      chatId,
-      `🎓 Bizning o‘quv markazimizda quyidagi kurslar mavjud:
-
-1️⃣ Ingliz tili  
-2️⃣ Rus tili  
-3️⃣ Matematika  
-4️⃣ Dasturlash (Python, Web)  
-5️⃣ Grafik dizayn  
-
-👇 Quyidagi kurslardan birini tanlang va batafsil ma’lumot oling:
-      `,
-      {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "🇬🇧 Ingliz tili", callback_data: "course_english" }],
-            [{ text: "🇬🇧 Ingliz tili", callback_data: "course_english" }],
-            [{ text: "🇬🇧 Ingliz tili", callback_data: "course_english" }],
-          ],
-        },
-      }
-    );
+    onCourses(chatId);
   } else if (text == "ℹ️ Markaz haqida") {
     bot.sendMessage(chatId, "📍 Bizning o‘quv markaz joylashuvi:");
     bot.sendLocation(chatId, 41.3781989, 60.3694056);
   } else if (text == "✍️ Ro‘yxatdan o‘tish") {
-    const userExists = usersData.some((user) => user.chatId === chatId);
-
-    console.log("bormi: ", userExists);
-
-    if (!userExists) {
-      usersData = [
-        ...usersData,
-        {
-          chatId: chatId,
-          firstName: firstName,
-          admin: false,
-        },
-      ];
-    }
-
-    usersData.forEach((user) => {
-      if (user.admin) {
-        bot.sendMessage(
-          user.chatId,
-          `Yangi xabar ✅\n\n--user: ${firstName}\n--chatId: ${chatId}\n\n*******`
-        );
-      }
-    });
-
-    bot.sendMessage(chatId, `Tabriklaymiz, siz ro'yhatdan o'tdingiz! ✅`);
-
-    console.log(usersData);
+    onRegister(chatId);
   } else {
     bot.sendMessage(
       chatId,
@@ -129,3 +61,5 @@ Iltimos, quyidagi tugmani bosing 👇
 });
 
 console.log("Bot ishga tushdi...");
+
+export { bot };
