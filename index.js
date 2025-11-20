@@ -11,18 +11,6 @@ const TOKEN = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
-let usersData = [
-  { chatId: 7720590409, firstName: "𝓪𝓶𝓪𝓷𝓰𝓪𝓵𝓭𝓲𝓮𝓿", admin: true },
-  { chatId: 6480933576, firstName: "•𝓘𝓼𝓵𝓸𝓶𝓫𝓮𝓴•", admin: true },
-  { chatId: 7382570505, firstName: "عبدشاريبوف", admin: true },
-  { chatId: 2143181285, firstName: "Назирбоев", admin: true },
-  { chatId: 7869204457, firstName: "Sunnatbek", admin: true },
-  { chatId: 1904019441, firstName: "Bakhtiyarov", admin: true },
-  { chatId: 6052548847, firstName: "Alisher🫀", admin: true },
-  { chatId: 7174492240, firstName: "_jasurbekvnaa.__", admin: true },
-  { chatId: 875072364, firstName: "Abbosbek", admin: true },
-];
-
 bot.on("message", (msg) => {
   // console.log(msg);
   const chatId = msg.chat.id;
