@@ -4,12 +4,24 @@ import { config } from "dotenv";
 import { onStart } from "./src/onStart.js";
 import { onCourses } from "./src/onCourses.js";
 import { onRegister } from "./src/onRegister.js";
-
+import mongoose from "mongoose";
 config();
 
 const TOKEN = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(TOKEN, { polling: true });
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    cansole.log(`Db is connected successfully...`);
+  })
+  .then(() => {
+    console.log(`Congratulations!`);
+  })
+  .catch(() => {
+    console.log(`Error: db is not connected..!!`);
+  });
 
 bot.on("message", (msg) => {
   // console.log(msg);
