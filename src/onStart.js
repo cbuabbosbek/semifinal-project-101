@@ -1,7 +1,21 @@
 import { bot } from "../index.js";
+import User from "./models/User.js";
 
-function onStart(chatId, firstName) {
-  console.log(`onStart...!`);
+async function onStart(chatId, firstName) {
+  console.log(`${chatId} ---> ${firstName}`);
+  const existingUser = await User.findOne({ telegramId: chatId });
+
+  console.log(!existingUser);
+
+  if (!existingUser) {
+    // console.log(`Foydalanuvchi topilmadi...`);
+    const newUser = new User({
+      telegramId: chatId,
+      firstname: firstName,
+    });
+
+    newUser.save()
+  }
 
   bot.sendMessage(
     chatId,

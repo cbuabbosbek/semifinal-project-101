@@ -1,7 +1,6 @@
 import { bot } from "../index.js";
 
 function onCourses(chatId) {
-  console.log(`onCourses...!`);
   bot.sendMessage(
     chatId,
     `🎓 Bizning o‘quv markazimizda quyidagi kurslar mavjud:

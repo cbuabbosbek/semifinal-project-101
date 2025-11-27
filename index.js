@@ -5,6 +5,7 @@ import { onStart } from "./src/onStart.js";
 import { onCourses } from "./src/onCourses.js";
 import { onRegister } from "./src/onRegister.js";
 import mongoose from "mongoose";
+import onUsers from "./src/onUsers.js";
 config();
 
 const TOKEN = process.env.BOT_TOKEN;
@@ -40,6 +41,8 @@ bot.on("message", (msg) => {
     bot.sendLocation(chatId, 41.3781989, 60.3694056);
   } else if (text == "✍️ Ro‘yxatdan o‘tish") {
     onRegister(chatId);
+  } else if (text == "/users") {
+    onUsers(chatId);
   } else {
     bot.sendMessage(
       chatId,
